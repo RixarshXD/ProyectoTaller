@@ -24,13 +24,17 @@ Instalación
 ------------
 
 1. Clonar el repositorio
-2. Crear un entorno virtual
+2. Ejecutar el comando:
+
+    pip freeze > requirements.txt
+
 3. Instalar dependencias::
 
     pip install -r requirements.txt
 
 4. Ejecutar migraciones::
 
+    python manage.py makemigrations
     python manage.py migrate
 
 5. Crear superusuario::
@@ -165,6 +169,19 @@ ProductoForm
 
 RegistroInventarioForm
 ~~~~~~~~~~~~~~~~~~~~~~
+
+UsuarioForm
+~~~~~~~~~~~~
+
+.. py:class:: UsuarioForm
+
+   Formulario para crear y editar usuarios.
+
+   **Validaciones:**
+
+   - Email: Formato válido
+   - Contraseña: Mínimo 8 caracteres
+   - RUT: Formato chileno
 
 .. py:class:: RegistroInventarioForm
 

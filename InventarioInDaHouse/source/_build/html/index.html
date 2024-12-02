@@ -100,14 +100,19 @@
 <h2>Instalación<a class="headerlink" href="#instalacion" title="Link to this heading"></a></h2>
 <ol class="arabic">
 <li><p>Clonar el repositorio</p></li>
-<li><p>Crear un entorno virtual</p></li>
+<li><p>Ejecutar el comando:</p>
+<blockquote>
+<div><p>pip freeze &gt; requirements.txt</p>
+</div></blockquote>
+</li>
 <li><p>Instalar dependencias:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
 </pre></div>
 </div>
 </li>
 <li><p>Ejecutar migraciones:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">migrate</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">makemigrations</span>
+<span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">migrate</span>
 </pre></div>
 </div>
 </li>
@@ -268,6 +273,21 @@
 </section>
 <section id="registroinventarioform">
 <h3>RegistroInventarioForm<a class="headerlink" href="#registroinventarioform" title="Link to this heading"></a></h3>
+</section>
+<section id="usuarioform">
+<h3>UsuarioForm<a class="headerlink" href="#usuarioform" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="UsuarioForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UsuarioForm</span></span><a class="headerlink" href="#UsuarioForm" title="Link to this definition"></a></dt>
+<dd><p>Formulario para crear y editar usuarios.</p>
+<p><strong>Validaciones:</strong></p>
+<ul class="simple">
+<li><p>Email: Formato válido</p></li>
+<li><p>Contraseña: Mínimo 8 caracteres</p></li>
+<li><p>RUT: Formato chileno</p></li>
+</ul>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="RegistroInventarioForm">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RegistroInventarioForm</span></span><a class="headerlink" href="#RegistroInventarioForm" title="Link to this definition"></a></dt>
