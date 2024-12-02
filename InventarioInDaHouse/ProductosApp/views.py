@@ -314,7 +314,7 @@ def cargar_excel(request):
                             categoria=categoria,
                             proveedor=proveedor,
                             descripcion='Importado desde Excel',
-                            promocion=row.get('promocion', None)
+                            promocion=producto.get('promocion', False)
                         )
                         productos_nuevos.append(producto)
                     except KeyError as e:

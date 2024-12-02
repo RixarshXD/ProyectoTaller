@@ -40,6 +40,48 @@
             </div>
         </div>
     </div>
+
+    <!-- Script para calcular el precio con descuento -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const precioInput = document.getElementById('precio');
+            const descuentoInput = document.getElementById('descuento');
+            const precioFinalInput = document.getElementById('precioFinal');
+
+            function calcularPrecioConDescuento() {
+                const precio = parseFloat(precioInput.value) || 0;
+                const descuento = parseFloat(descuentoInput.value) || 0;
+
+                if (descuento < 0 || descuento > 100) {
+                    alert('El descuento debe estar entre 0 y 100');
+                    descuentoInput.value = '';
+                    return;
+                }
+
+                const precioFinal = precio - (precio * (descuento / 100));
+                precioFinalInput.value = precioFinal.toFixed(2);
+
+                // Asegurarse de que el valor del descuento se guarde en el formulario
+                const hiddenDescuentoInput = document.querySelector('input[name="descuento"]');
+                if (!hiddenDescuentoInput) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'descuento';
+                    input.value = descuento;
+                    precioFinalInput.parentNode.appendChild(input);
+                } else {
+                    hiddenDescuentoInput.value = descuento;
+                }
+            }
+
+            // Eventos para actualizar el precio final
+            precioInput.addEventListener('input', calcularPrecioConDescuento);
+            descuentoInput.addEventListener('input', calcularPrecioConDescuento);
+
+            // Calcular inicial si hay valores
+            calcularPrecioConDescuento();
+        });
+    </script>
     {% endblock %}
 </body>
 

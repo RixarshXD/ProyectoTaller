@@ -10,7 +10,6 @@ Módulo encargado de la gestión de usuarios y autenticación.
 
 Características principales:
 - Gestión de roles (Gerente/Vendedor/Encargado)
-- Autenticación por email
 - Validación de RUT chileno
 - Control de acceso basado en roles
 

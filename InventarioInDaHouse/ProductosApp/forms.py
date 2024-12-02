@@ -29,28 +29,35 @@ class ProductoForm(forms.ModelForm):
     - Precio: No permite valores negativos
     - Promoción: Requiere seleccionar un estado válido
     """
+    descuento = forms.DecimalField(
+        required=False,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'id': 'descuento',
+            'min': '0',
+            'max': '100',
+            'step': '0.01'
+        })
+    )
+    
     class Meta:
         model = Producto
-        fields = ['nombre', 'descripcion', 'precio', 'stock', 'sku', 'categoria', 'proveedor', 'promocion']
+        fields = ['nombre', 'descripcion', 'precio', 'stock', 'sku', 'categoria', 'proveedor', 'promocion', 'descuento']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'precio': forms.NumberInput(attrs={'class': 'form-control'}),
+            'precio': forms.NumberInput(attrs={'class': 'form-control', 'id': 'precio'}),
             'stock': forms.NumberInput(attrs={'class': 'form-control'}),
             'sku': forms.TextInput(attrs={'class': 'form-control'}),
             'categoria': forms.Select(attrs={'class': 'form-control'}),
             'proveedor': forms.Select(attrs={'class': 'form-control'}),
-            'promocion': forms.TextInput(attrs={'class': 'form-control'}),
+            'promocion': forms.NumberInput(attrs={'class': 'form-control', 'id': 'precioFinal', 'readonly': 'readonly'}),
         }
      
     # Se crean validaaciones para algunos campos:
     
     # Validación para el 'nombre'. Solo se permiten letras.
-    def clean_nombre(self):
-        nombre = self.cleaned_data.get('nombre')
-        if not nombre.isalpha():
-            raise forms.ValidationError("Un nombre solo debe contener letras.")
-        return nombre
+
     
     # Validación para la 'categoria'. La validación convierte la especificación de la categoría en un campo obligatorio.
     def clean_categoria(self):
@@ -72,6 +79,18 @@ class ProductoForm(forms.ModelForm):
         if promocion == 'Sin estado':
             raise forms.ValidationError('Por favor, Seleccione un estado')
         return promocion
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        # Guardar el descuento y calcular el precio final
+        descuento = self.cleaned_data.get('descuento') or 0
+        precio = self.cleaned_data.get('precio') or 0
+        instance.descuento = descuento
+        instance.promocion = precio - (precio * (descuento / 100))
+        
+        if commit:
+            instance.save()
+        return instance
 
 class CategoriaForm(forms.ModelForm):
     """

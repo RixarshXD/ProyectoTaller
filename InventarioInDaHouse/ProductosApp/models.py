@@ -26,6 +26,17 @@ class Producto(models.Model):
     categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
     proveedor = models.ForeignKey('Proveedor', on_delete=models.CASCADE, null=True, blank=True)
     promocion = models.CharField(max_length=50, blank=True, null=True)
+    descuento = models.DecimalField(max_digits=5, decimal_places=2, default=0)  # Nuevo campo para guardar el porcentaje de descuento
+
+    def precio_formato_cl(self):
+        """Retorna el precio en formato chileno"""
+        return f"${self.precio:,.0f}".replace(',', '.')
+
+    def promocion_formato_cl(self):
+        """Retorna el precio de promoción en formato chileno"""
+        if self.promocion:
+            return f"${float(self.promocion):,.0f}".replace(',', '.')
+        return None
 
     def __str__(self):
         """
@@ -97,7 +108,7 @@ class RegistroInventario(models.Model):
         cantidad (int): Cantidad modificada
         fecha (datetime): Fecha y hora del registro
     """
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='registros')
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='registros', null=True, blank=True)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.IntegerField()
     fecha = models.DateTimeField(auto_now_add=True)

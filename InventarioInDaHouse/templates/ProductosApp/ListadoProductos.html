@@ -49,7 +49,8 @@
                     <thead class="bg-light">
                         <tr>
                             <th>Producto</th>
-                            <th>Precio</th>
+                            <th>Precio Original</th>
+                            <th>Precio Final</th>
                             <th>Stock</th>
                             <th>Categoría</th>
                             <th>Estado</th>
@@ -70,7 +71,17 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>${{ producto.precio }}</td>
+                            <td>{{ producto.precio_formato_cl }}</td>
+                            <td>
+                                {% if producto.promocion %}
+                                <span class="text-success">{{ producto.promocion_formato_cl }}</span>
+                                <small class="text-muted d-block">
+                                    Descuento: {{ producto.descuento }}%
+                                </small>
+                                {% else %}
+                                <span class="text-muted">Sin descuento</span>
+                                {% endif %}
+                            </td>
                             <td>{{ producto.stock }}</td>
                             <td>
                                 <span class="badge bg-info text-dark">{{ producto.categoria.nombre }}</span>
